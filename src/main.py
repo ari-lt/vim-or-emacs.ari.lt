@@ -4,7 +4,6 @@
 
 import re
 import secrets
-import time
 from datetime import datetime
 from enum import Enum, auto
 from operator import itemgetter
@@ -94,8 +93,6 @@ def error_handler(e: HTTPException) -> Tuple[Any, int]:
     """handle http errors"""
 
     if e.code == 429:
-        time.sleep(secrets.SystemRandom().random() * 15)
-
         return (
             flask.Response(
                 f"too many requests : {e.description or '<limit>'}",
