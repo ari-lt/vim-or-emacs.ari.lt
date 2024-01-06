@@ -18,6 +18,7 @@ from sqlalchemy import DateTime
 from sqlalchemy import Enum as DBEnum
 from sqlalchemy import func
 from werkzeug.exceptions import HTTPException
+from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.routing import Rule
 from werkzeug.wrappers import Response
 
@@ -61,6 +62,8 @@ class Vote(db.Model):
 
 
 app: flask.Flask = flask.Flask(__name__)
+
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1)  # type: ignore
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///voe.db"
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_pre_ping": True}
