@@ -78,7 +78,7 @@ limiter: Limiter = Limiter(
     app=app,
     default_limits=["30 per minute", "6 per second"],
     storage_uri="memory://",
-    strategy="moving-window",
+    strategy="fixed-window",
 )
 
 
