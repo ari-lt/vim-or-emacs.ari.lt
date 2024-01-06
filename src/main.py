@@ -115,6 +115,22 @@ def error_handler(e: HTTPException) -> Tuple[Any, int]:
     )
 
 
+@app.after_request
+def headers(response: flask.Response) -> flask.Response:
+    """headers"""
+
+    if not app.debug:
+        response.headers["Content-Security-Policy"] = "upgrade-insecure-requests"
+        response.headers[
+            "Strict-Transport-Security"
+        ] = "max-age=63072000; includeSubDomains; preload"
+
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+
+    return response
+
+
 @app.get("/")
 def index() -> str:
     """index page"""
