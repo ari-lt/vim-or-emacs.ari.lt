@@ -310,6 +310,17 @@ def favicon_ico() -> Response:
     return flask.redirect("https://ari.lt/favicon.ico")
 
 
+@app.get("/git", defaults={"_": ""})
+@app.get("/git/", defaults={"_": ""})
+@app.get("/git/<path:_>")
+def git(_: str) -> Response:
+    """git source"""
+    return flask.redirect(
+        f"https://ari.lt/lh/vim-or-emacs.ari.lt/{flask.request.full_path[4:]}",
+        code=302,
+    )
+
+
 def main() -> int:
     """entry/main function"""
 
