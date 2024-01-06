@@ -1,0 +1,47 @@
+{% extends "base.j2" %}
+
+{% block description %}Vote here!{% endblock %}
+
+{% block body %}
+<h1>Help us solve the long-standing question: <a href="https://www.vim.org/">Vim</a> or <a href="https://www.gnu.org/software/emacs/">GNU Emacs</a></h1>
+
+<h2>
+    Current winner:
+    {% if winner[0] %}
+    <span class="{{ winner[0].name }}">{{ winner[0].name.title() }}</span>
+    {% else %} Tied {% endif %}
+    with {{ winner[1] }} votes
+</h2>
+
+<p>
+    The question of "Vim or Emacs" has been a long standing question which oftentimes
+    leads to editor wars. This is why I've created this page -- to answer this question
+    by using statistics &#129299;. This page is <a href="/git">open source</a> as all
+    good things should be, and I've also implemented <a href="/votes.json">votes.json</a>
+    and <a href="/stats.json">stats.json</a> APIs (which you can see in the <a href="/votes">votes page</a>). You can <b>vote once every 24 hours</b>,
+    other resources are also limited to avoid abuse. <b>Thank you for your contribution.</b>
+</p>
+
+<p>
+    This project is a part of
+    <a href="https://ari.lt/"><img style="display:inline;vertical-align:middle" src="https://ari.lt/badge.png" loading="lazy" alt="ari-web badge" height="31px" width="88px" /></a>,
+    and by nature -- licensed under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3+</a>.
+</p>
+
+<form method="POST">
+    <fieldset>
+        <legend>Which do you prefer/use and/or agree that is better?</legend>
+
+        <select id="voe" name="voe" required>
+            <option value="" selected></option>
+            {% for e in Editor.all() %}
+            <option value="{{ e.value }}">{{ e.name }}</option>
+            {% endfor %}
+        </select>
+
+        <br />
+
+        <button>I've made my choice!</button>
+    </fieldset>
+</form>
+{% endblock %}

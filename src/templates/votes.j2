@@ -1,0 +1,39 @@
+{% extends "base.j2" %}
+
+{% block description %}Vote here!{% endblock %}
+
+{% block head %}
+<script src="{{ url_for("static", filename="votes.js") }}" defer></script>
+{% endblock %}
+
+{% block body %}
+<h1>Votes</h1>
+
+<h2>Winner: <span id="winner">loading ...</span></h2>
+
+<pre>
+First vote: <span id="first">loading ...</span>
+Latest vote: <span id="latest">loading ...</span>
+Votes: <span id="votes">loading ...</span>
+</pre>
+
+<h2>Recent votes</h2>
+
+<ul id="recent"></ul>
+
+<h2 id="api">API</h2>
+
+<ul>
+    <li><a href="/editors.json">/editors.json</a> -- mapping editors to their names</li>
+    <li>
+        <a href="/votes.json">/votes.json</a> -- votes statistics
+        <ul>
+            <li>you can add `from` GET parameter to filter which id to get results from</li>
+            <li>you can add `to` GET parameter to filter which id to get results to</li>
+            <li>you can add `editor` GET parameter to filter which editor id to get results from</li>
+        </ul>
+        e.g. <a href="/votes.json?from=1&to=10&editor=1">/votes.json?from=1&amp;to=10&amp;editor=1</a> will return votes with id from 1 to 10 which voted for vim
+    </li>
+    <li><a href="/stats.json">/stats.json</a> -- general statistics</li>
+</ul>
+{% endblock %}

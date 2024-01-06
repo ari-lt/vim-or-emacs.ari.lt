@@ -1,0 +1,7 @@
+{% extends "base.j2" %}
+
+{% block title %} -&gt; {{ code }}{% endblock %}
+
+{% block description %}{{ code }} / {{ summary }}{% endblock %}
+
+{% block body %}<h1>{{ code }} / {{ summary }}</h1> <p>{{ description }}</p>{% endblock %}
