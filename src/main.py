@@ -270,38 +270,6 @@ Sitemap: https://vim-or-emacs.ari.lt/sitemap.xml""",
     )
 
 
-rule: Rule
-
-pat: re.Pattern[str] = re.compile(r"<.+?:(.+?)>")
-
-sitemap: str = '<?xml version="1.0" encoding="UTF-8"?>\
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-
-
-def surl(loc: str) -> str:
-    """sitemap url"""
-
-    u: str = "<url>"
-    u += (
-        f'<loc>{app.config["PREFERRED_URL_SCHEME"]}://{app.config["DOMAIN"]}{loc}</loc>'
-    )
-    u += "<priority>1.0</priority>"
-    return u + "</url>"
-
-
-for rule in app.url_map.iter_rules():
-    url: str = pat.sub(r"\1", rule.rule)
-    sitemap += surl(url)
-
-
-@app.route("/sitemap.xml", methods=["GET", "POST"])
-def sitemap_xml() -> flask.Response:
-    """sitemap"""
-
-    esitemap: str = sitemap
-    return flask.Response(esitemap + "</urlset>", mimetype="application/xml")
-
-
 @app.route("/manifest.json", methods=["GET", "POST"])
 def manifest_json() -> flask.Response:
     """manifest"""
@@ -335,6 +303,38 @@ def git(_: str) -> Response:
         f"https://ari.lt/lh/vim-or-emacs.ari.lt/{flask.request.full_path[4:]}",
         code=302,
     )
+
+
+rule: Rule
+
+pat: re.Pattern[str] = re.compile(r"<.+?:(.+?)>")
+
+sitemap: str = '<?xml version="1.0" encoding="UTF-8"?>\
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+
+
+def surl(loc: str) -> str:
+    """sitemap url"""
+
+    u: str = "<url>"
+    u += (
+        f'<loc>{app.config["PREFERRED_URL_SCHEME"]}://{app.config["DOMAIN"]}{loc}</loc>'
+    )
+    u += "<priority>1.0</priority>"
+    return u + "</url>"
+
+
+for rule in app.url_map.iter_rules():
+    url: str = pat.sub(r"\1", rule.rule)
+    sitemap += surl(url)
+
+
+@app.route("/sitemap.xml", methods=["GET", "POST"])
+def sitemap_xml() -> flask.Response:
+    """sitemap"""
+
+    esitemap: str = sitemap
+    return flask.Response(esitemap + "</urlset>", mimetype="application/xml")
 
 
 def main() -> int:
