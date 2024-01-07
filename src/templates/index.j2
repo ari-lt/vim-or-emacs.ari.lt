@@ -1,15 +1,19 @@
 {% extends "base.j2" %}
 
-{% block description %}Vote here!{% endblock %}
+{% if winner[0] %}
+{% set w = winner[0].name.title() %}
+{% else %}
+{% set w = "Tied" %}
+{% endif %}
+
+{% block description %}Vote here! Currently {{ w }} is winning with {{ winner[1] }} votes, your vote might change the outcome!{% endblock %}
 
 {% block body %}
 <h1>Help us solve the long-standing question: <a href="https://www.vim.org/">Vim</a> or <a href="https://www.gnu.org/software/emacs/">GNU Emacs</a></h1>
 
 <h2>
     Current winner:
-    {% if winner[0] %}
-    <span class="{{ winner[0].name }}">{{ winner[0].name.title() }}</span>
-    {% else %} Tied {% endif %}
+    <span class="{{ w.lower() }}">{{ w }}</span>
     with {{ winner[1] }} votes
 </h2>
 
